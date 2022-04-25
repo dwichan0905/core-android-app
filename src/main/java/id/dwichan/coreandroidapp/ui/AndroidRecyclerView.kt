@@ -25,6 +25,13 @@ abstract class AndroidRecyclerView: RecyclerView.Adapter<RecyclerView.ViewHolder
     private var isDataEnd = false
     private var isRefresh = false
 
+    /**
+     * Implements Load More support
+     *
+     * @param recyclerView RecyclerView Component
+     * @param visibleThreshold (optional) default 1
+     * @param onLoadMore action when Load More is triggered
+     */
     fun implementLoadMore(
         recyclerView: RecyclerView,
         visibleThreshold: Int = 1,
