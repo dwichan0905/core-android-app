@@ -57,7 +57,8 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
     }
 
     /**
-     * Will be invoked after event [onViewCreated] was invoked and view was inflated.
+     * Will be invoked after event [onViewCreated] was invoked and view was inflated. You can use
+     * [binding] variable to modify what view must do!
      */
     abstract fun onSetup(savedInstanceState: Bundle?)
 

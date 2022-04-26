@@ -47,7 +47,8 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
     }
 
     /**
-     * Will be invoked after event [onCreate] was invoked and view was inflated.
+     * Will be invoked after event [onCreate] was invoked and view was inflated. You can use
+     * [binding] variable to modify what view must do!
      */
     abstract fun onSetup(savedInstanceState: Bundle?)
 

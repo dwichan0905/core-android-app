@@ -7,10 +7,8 @@ import com.bumptech.glide.Glide
 import id.dwichan.coreandroidapp.R
 import kotlinx.coroutines.*
 
-fun clearImageCache(applicationContext: Context)  {
-    GlobalScope.launch(Dispatchers.IO) {
-        Glide.get(applicationContext).clearDiskCache()
-    }
+suspend fun clearImageCache(applicationContext: Context) = coroutineScope {
+    Glide.get(applicationContext).clearDiskCache()
 }
 
 fun ImageView.loadImage(url: String) {
