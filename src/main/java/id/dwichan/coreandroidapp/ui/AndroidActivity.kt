@@ -41,19 +41,25 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
     private var _binding: ViewBinding? = null
 
     /**
+     * Define if the activity is at last stack. Set to TRUE if no more activity and empty fragment
+     * stack, otherwise FALSE if there still an activity or fragment stack remaining.
+     */
+    abstract val isLastActivity: Boolean
+
+    /**
      * Represent how the ViewBinding inflated.
      */
     abstract val bindingInflater: (LayoutInflater) -> VB
 
     @Suppress("UNCHECKED_CAST")
-    protected val binding: VB
-        get() = _binding as VB
+    protected val binding: VB?
+        get() = _binding as VB?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = bindingInflater.invoke(layoutInflater)
-        setContentView(binding.root)
-        Log.i("AndroidActivity", "ViewBinding ${binding.javaClass.name} are displayed as activity.")
+        setContentView(binding!!.root)
+        Log.i("AndroidActivity", "ViewBinding ${binding!!.javaClass.name} are displayed as activity.")
 
         val pref = UiPreferences.getInstance(dataStore)
         val uiViewModel = ViewModelProvider(this, UiViewModelFactory(pref))[
@@ -88,12 +94,21 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
      */
     abstract fun onSetup(savedInstanceState: Bundle?)
 
+    override fun onBackPressed() {
+        if (isLastActivity) {
+            finishAfterTransition()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onDestroy() {
-        super.onDestroy()
+        val className = binding?.javaClass?.name
         _binding = null
-        Log.i("AndroidActivity", "ViewBinding ${binding.javaClass.name} are nullified.")
+        Log.i("AndroidActivity", "ViewBinding $className are nullified.")
         onTearDown()
         Log.i("AndroidActivity", "onTearDown() triggered successfully")
+        super.onDestroy()
     }
 
     /**

@@ -36,8 +36,8 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
 
     @Suppress("UNCHECKED_CAST")
-    protected val binding: VB
-        get() = _binding as VB
+    protected val binding: VB?
+        get() = _binding as VB?
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,13 +45,13 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = bindingInflater.invoke(inflater, container, false)
-        Log.i("AndroidFragment", "ViewBinding ${binding.javaClass.name} are invoked.")
-        return binding.root
+        Log.i("AndroidFragment", "ViewBinding ${binding?.javaClass?.name} are invoked.")
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("AndroidFragment", "ViewBinding ${binding.javaClass.name} are created as fragment.")
+        Log.i("AndroidFragment", "ViewBinding ${binding!!.javaClass.name} are created as fragment.")
         onSetup(savedInstanceState)
         Log.i("AndroidFragment", "onSetup() triggered successfully")
     }
@@ -63,11 +63,12 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
     abstract fun onSetup(savedInstanceState: Bundle?)
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        val className = binding?.javaClass?.name
         _binding = null
-        Log.i("AndroidFragment", "ViewBinding ${binding.javaClass.name} are nullified.")
+        Log.i("AndroidActivity", "ViewBinding $className are nullified.")
         onTearDown()
         Log.i("AndroidFragment", "onTearDown() triggered successfully")
+        super.onDestroyView()
     }
 
     /**
