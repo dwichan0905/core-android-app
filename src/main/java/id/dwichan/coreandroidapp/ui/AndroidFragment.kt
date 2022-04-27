@@ -74,5 +74,7 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
      * If you need to nullify variables/components (e.g. adapter), write to this function. This will
      * called on [onDestroyView] life cycle after nullifying a binder.
      */
-    abstract fun onTearDown()
+    protected open fun onTearDown() {
+
+    }
 }

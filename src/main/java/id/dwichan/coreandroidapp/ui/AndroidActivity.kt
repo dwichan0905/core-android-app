@@ -100,6 +100,8 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
      * If you need to nullify variables/components (e.g. adapter), write to this function. This will
      * called on [onDestroy] life cycle after nullifying a binder.
      */
-    abstract fun onTearDown()
+    protected open fun onTearDown() {
+
+    }
 
 }
