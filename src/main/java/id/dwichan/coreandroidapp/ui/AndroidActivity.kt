@@ -1,11 +1,23 @@
 package id.dwichan.coreandroidapp.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import timber.log.Timber
+import id.dwichan.coreandroidapp.ui.config.UiPreferences
+import id.dwichan.coreandroidapp.ui.config.UiViewModel
+import id.dwichan.coreandroidapp.ui.config.UiViewModelFactory
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+    name = UiPreferences.PREFERENCE_NAME
+)
 /**
  * Extends the class as Android Activity. This will avoid the memory leak caused by a binder class.
  *
@@ -41,9 +53,33 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = bindingInflater.invoke(layoutInflater)
         setContentView(binding.root)
-        Timber.i("ViewBinding ${binding.javaClass.name} are displayed as activity.")
+        Log.i("AndroidActivity", "ViewBinding ${binding.javaClass.name} are displayed as activity.")
+
+        val pref = UiPreferences.getInstance(dataStore)
+        val uiViewModel = ViewModelProvider(this, UiViewModelFactory(pref))[
+                UiViewModel::class.java
+        ]
+        uiViewModel.getTheme().observe(this) { mode ->
+            AppCompatDelegate.setDefaultNightMode(mode)
+            val modeString = when (mode) {
+                AppCompatDelegate.MODE_NIGHT_YES -> {
+                    "MODE_NIGHT_YES"
+                }
+                AppCompatDelegate.MODE_NIGHT_NO -> {
+                    "MODE_NIGHT_NO"
+                }
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
+                    "MODE_NIGHT_FOLLOW_SYSTEM"
+                }
+                else -> {
+                    "MODE_UNKNOWN ($mode)"
+                }
+            }
+            Log.i("AndroidActivity", "Theme successfully applied to $modeString")
+        }
+
         onSetup(savedInstanceState)
-        Timber.i("onSetup() triggered successfully")
+        Log.i("AndroidActivity", "onSetup() triggered successfully")
     }
 
     /**
@@ -55,7 +91,7 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        Timber.i("ViewBinding ${binding.javaClass.name} are nullified.")
+        Log.i("AndroidActivity", "ViewBinding ${binding.javaClass.name} are nullified.")
     }
 
 }

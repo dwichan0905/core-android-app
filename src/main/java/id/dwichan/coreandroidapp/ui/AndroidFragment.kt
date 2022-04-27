@@ -1,12 +1,12 @@
 package id.dwichan.coreandroidapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import timber.log.Timber
 
 /**
  * Extends the class as Android Fragment. This will avoid the memory leak caused by a binder class.
@@ -45,15 +45,15 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = bindingInflater.invoke(inflater, container, false)
-        Timber.i("ViewBinding ${binding.javaClass.name} are invoked.")
+        Log.i("AndroidFragment", "ViewBinding ${binding.javaClass.name} are invoked.")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.i("ViewBinding ${binding.javaClass.name} are created as fragment.")
+        Log.i("AndroidFragment", "ViewBinding ${binding.javaClass.name} are created as fragment.")
         onSetup(savedInstanceState)
-        Timber.i("onSetup() triggered successfully")
+        Log.i("AndroidFragment", "onSetup() triggered successfully")
     }
 
     /**
@@ -65,6 +65,6 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        Timber.i("ViewBinding ${binding.javaClass.name} are nullified.")
+        Log.i("AndroidFragment", "ViewBinding ${binding.javaClass.name} are nullified.")
     }
 }

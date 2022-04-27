@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="message_theme_not_found">Theme must be set as MODE_NIGHT_YES, MODE_NIGHT_NO, or MODE_NIGHT_FOLLOW_SYSTEM. Applied default value: MODE_NIGHT_FOLLOW_SYSTEM</string>
+    <string name="message_recycler_layout_manager_not_supported">LayoutManager isn\'t supported! Currently Supported: LinearLayoutManager, StaggeredGridLayoutManager</string>
+    <string name="message_recycler_no_layout_manager">No LayoutManager found. Did you forget to set recyclerView.layoutManager?</string>
+</resources>

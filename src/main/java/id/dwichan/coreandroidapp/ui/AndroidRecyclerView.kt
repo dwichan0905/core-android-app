@@ -1,13 +1,14 @@
 package id.dwichan.coreandroidapp.ui
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import id.dwichan.coreandroidapp.R
 import id.dwichan.coreandroidapp.diffutil.DataDiffUtilCallback
 import id.dwichan.coreandroidapp.model.LoadingModel
 import id.dwichan.coreandroidapp.model.Model
-import timber.log.Timber
 
 abstract class AndroidRecyclerView: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -71,11 +72,11 @@ abstract class AndroidRecyclerView: RecyclerView.Adapter<RecyclerView.ViewHolder
                     })
                 }
                 else -> {
-                    Timber.e("LayoutManager isn't supported!")
+                    Log.e("AndroidRecyclerView", recyclerView.context.getString(R.string.message_recycler_layout_manager_not_supported))
                 }
             }
         } else {
-            Timber.e("No LayoutManager found")
+            Log.e("AndroidRecyclerView", recyclerView.context.getString(R.string.message_recycler_no_layout_manager))
         }
     }
 
