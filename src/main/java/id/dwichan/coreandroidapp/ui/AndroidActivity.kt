@@ -92,6 +92,14 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
         super.onDestroy()
         _binding = null
         Log.i("AndroidActivity", "ViewBinding ${binding.javaClass.name} are nullified.")
+        onTearDown()
+        Log.i("AndroidActivity", "onTearDown() triggered successfully")
     }
+
+    /**
+     * If you need to nullify variables/components (e.g. adapter), write to this function. This will
+     * called on [onDestroy] life cycle after nullifying a binder.
+     */
+    abstract fun onTearDown()
 
 }

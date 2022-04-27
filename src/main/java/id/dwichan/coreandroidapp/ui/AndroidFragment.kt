@@ -66,5 +66,13 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
         super.onDestroyView()
         _binding = null
         Log.i("AndroidFragment", "ViewBinding ${binding.javaClass.name} are nullified.")
+        onTearDown()
+        Log.i("AndroidFragment", "onTearDown() triggered successfully")
     }
+
+    /**
+     * If you need to nullify variables/components (e.g. adapter), write to this function. This will
+     * called on [onDestroyView] life cycle after nullifying a binder.
+     */
+    abstract fun onTearDown()
 }
