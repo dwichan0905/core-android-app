@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import id.dwichan.coreandroidapp.R
 import id.dwichan.coreandroidapp.ui.config.UiPreferences
 import id.dwichan.coreandroidapp.ui.config.UiViewModel
 import id.dwichan.coreandroidapp.ui.config.UiViewModelFactory
@@ -117,6 +118,10 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
      */
     protected open fun onTearDown() {
 
+    }
+
+    fun isTabletMode(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
     }
 
 }

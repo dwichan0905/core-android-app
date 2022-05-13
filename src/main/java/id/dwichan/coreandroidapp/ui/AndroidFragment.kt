@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import id.dwichan.coreandroidapp.R
 
 /**
  * Extends the class as Android Fragment. This will avoid the memory leak caused by a binder class.
@@ -77,5 +78,9 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
      */
     protected open fun onTearDown() {
 
+    }
+
+    fun isTabletMode(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
     }
 }
