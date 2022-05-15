@@ -1,9 +1,12 @@
 package id.dwichan.coreandroidapp.ui
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
@@ -40,6 +43,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
 
     private var _binding: ViewBinding? = null
+    private var fullscreenOnLandscape: Boolean = false
 
     /**
      * Define if the activity is at last stack. Set to TRUE if no more activity and empty fragment
@@ -58,6 +62,21 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (fullscreenOnLandscape) {
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                window.decorView.apply {
+                    // Hide both the navigation bar and the status bar.
+                    // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+                    // a general rule, you should design your app to hide the status bar whenever you
+                    // hide the navigation bar.
+                    systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+                }
+            }
+            else {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            }
+        }
         _binding = bindingInflater.invoke(layoutInflater)
         setContentView(binding!!.root)
         Log.i("AndroidActivity", "ViewBinding ${binding!!.javaClass.name} are displayed as activity.")
@@ -118,6 +137,14 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
      */
     protected open fun onTearDown() {
 
+    }
+
+    /**
+     * Define if the activity is full screen when screen orientation is landscape.
+     * @param state State of Fullscreen on Landscape
+     */
+    protected open fun setFullscreenOnScreenLandscape(state: Boolean) {
+        this.fullscreenOnLandscape = state
     }
 
     fun isTabletMode(): Boolean {
