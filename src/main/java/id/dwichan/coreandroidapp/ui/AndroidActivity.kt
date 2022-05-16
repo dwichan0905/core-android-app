@@ -121,8 +121,4 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
      */
     protected open fun onTearDown() {}
 
-    fun isTabletMode(): Boolean {
-        return resources.getBoolean(R.bool.isTablet)
-    }
-
 }

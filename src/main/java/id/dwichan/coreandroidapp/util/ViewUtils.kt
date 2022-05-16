@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.view.*
 import android.widget.Toast
+import id.dwichan.coreandroidapp.R
 
 fun showShortToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -12,6 +13,13 @@ fun showShortToast(context: Context, message: String) {
 
 fun showLongToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+}
+
+/**
+ * Check the status if the activity is running on Tablet device (true) or not (false)
+ */
+fun Activity.isInTabletDevice(): Boolean {
+    return resources.getBoolean(R.bool.isTablet)
 }
 
 /**
