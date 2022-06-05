@@ -79,8 +79,4 @@ abstract class AndroidFragment<VB : ViewBinding>: Fragment() {
     protected open fun onTearDown() {
 
     }
-
-    fun isTabletMode(): Boolean {
-        return resources.getBoolean(R.bool.isTablet)
-    }
 }

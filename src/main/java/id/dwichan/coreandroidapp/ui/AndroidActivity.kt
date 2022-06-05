@@ -44,6 +44,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
 
     private var _binding: ViewBinding? = null
+    private lateinit var uiViewModel: UiViewModel
     /**
      * Define if the activity is at last stack. Set to TRUE if no more activity and empty fragment
      * stack, otherwise FALSE if there still an activity or fragment stack remaining.
@@ -67,7 +68,7 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
         Log.i("AndroidActivity", "ViewBinding ${binding!!.javaClass.name} are displayed as activity.")
 
         val pref = UiPreferences.getInstance(dataStore)
-        val uiViewModel = ViewModelProvider(this, UiViewModelFactory(pref))[
+        uiViewModel = ViewModelProvider(this, UiViewModelFactory(pref))[
                 UiViewModel::class.java
         ]
         uiViewModel.getTheme().observe(this) { mode ->
@@ -121,4 +122,20 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
      */
     protected open fun onTearDown() {}
 
+    /**
+     * Sets the Night Mode to the app. Please note that the [theme] value
+     * must be MODE_NIGHT_YES, MODE_NIGHT_NO, or MODE_NIGHT_FOLLOW_SYSTEM.
+     * @param theme Theme value from AppCompatDelegate
+     * @see AppCompatDelegate.NightMode
+     */
+    protected fun setUiTheme(@AppCompatDelegate.NightMode theme: Int) {
+        uiViewModel.setTheme(baseContext, theme)
+    }
+
+    /**
+     * Check whether the app is running on the tablet devices or not.
+     */
+    fun isTabletMode(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
+    }
 }
