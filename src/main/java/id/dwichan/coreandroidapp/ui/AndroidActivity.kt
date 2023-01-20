@@ -98,6 +98,7 @@ abstract class AndroidActivity<VB : ViewBinding>: AppCompatActivity() {
      */
     abstract fun onSetup(savedInstanceState: Bundle?)
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (isLastActivity) {
             finishAfterTransition()
