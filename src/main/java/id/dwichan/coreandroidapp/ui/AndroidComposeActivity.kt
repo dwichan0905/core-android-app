@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -22,6 +23,38 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = UiPreferences.PREFERENCE_NAME
 )
 
+/**
+ * Extends the class as Android Activity (Jetpack Compose). This will avoid the memory leak caused
+ * by a binder class.
+ *
+ * Example usage of this class:
+ * ```
+ * class MainActivity: AndroidComposeActivity() {
+ *
+ *     @Composable
+ *     override fun OnSetContent(savedInstanceState: Bundle?, darkMode: Boolean) {
+ *          // do stuff with Composable Functions
+ *          ExampleTheme(darkTheme = darkMode) {
+ *          Surface(
+ *              modifier = Modifier.fillMaxSize(),
+ *              color = MaterialTheme.colorScheme.background
+ *          ) {
+ *              Greeting("Android")
+ *          }
+ *     }
+ * }
+ *
+ * @Composable
+ * fun Greeting(text: String) {
+ *     ...
+ * }
+ * ```
+ *
+ * Don't forget to add ```@Composable``` annotation on overriding ```OnSetContent()``` composable function!
+ *
+ * @see ComponentActivity
+ * @see Composable
+ */
 abstract class AndroidComposeActivity: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

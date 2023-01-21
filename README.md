@@ -1,8 +1,32 @@
 # core-android-app
 Repository ini saya buat sebagai bahan dasar dalam pembuat aplikasi Android saya ke depannya. Dengan menggunakan library ini sebagai dasar aplikasi, maka kemungkinan kebocoran memori yang disebabkan oleh Activity/Fragment semakin kecil (hingga 5% kemungkinan).
 
-Untuk implementasinya, cukup jadikan ```AndroidActivity<ViewBinding>()``` atau ```AndroidFragment<ViewBinding>()``` sebagai superclass. berikut contoh implementasinya:
+Untuk implementasinya, cukup jadikan ```AndroidActivity<ViewBinding>()``` atau ```AndroidFragment<ViewBinding>()``` sebagai superclass. 
+Khusus untuk implementasi Jetpack Compose, cukup extend class ```AndroidComposeActivity()``` dan override composable function ```OnSetContent()``` (berikan anotasi ```@Composable``` pada method yang di override).
+Berikut contoh implementasinya:
 
+### Activity (Jetpack Compose)
+```
+class MainActivity: AndroidComposeActivity() {
+
+    @Composable
+    override fun OnSetContent(savedInstanceState: Bundle?, darkMode: Boolean) {
+         // do stuff with Composable Functions
+         ExampleTheme(darkTheme = darkMode) {
+         Surface(
+             modifier = Modifier.fillMaxSize(),
+             color = MaterialTheme.colorScheme.background
+         ) {
+             Greeting("Android")
+         }
+    }
+}
+
+@Composable
+fun Greeting(text: String) {
+    ...
+}
+```
 ### Activity
 ```
 class MainActivity: AndroidActivity<ActivityMainBinding>() {

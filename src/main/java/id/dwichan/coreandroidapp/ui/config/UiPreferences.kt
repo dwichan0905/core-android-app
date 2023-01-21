@@ -2,7 +2,6 @@ package id.dwichan.coreandroidapp.ui.config
 
 import android.content.Context
 import android.util.Log
-import androidx.annotation.IntDef
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -22,6 +21,7 @@ class UiPreferences private constructor(private val dataStore: DataStore<Prefere
         }
     }
     
+    @Suppress("KotlinConstantConditions")
     suspend fun setTheme(context: Context, theme: Int) {
         val themeApplied = if (
                 theme != AppCompatDelegate.MODE_NIGHT_YES ||
