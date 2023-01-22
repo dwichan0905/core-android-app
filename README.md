@@ -3,6 +3,9 @@ Repository ini saya buat sebagai bahan dasar dalam pembuat aplikasi Android saya
 
 Untuk implementasinya, cukup jadikan ```AndroidActivity<ViewBinding>()``` atau ```AndroidFragment<ViewBinding>()``` sebagai superclass. 
 Khusus untuk implementasi Jetpack Compose, cukup extend class ```AndroidComposeActivity()``` dan override composable function ```OnSetContent()``` (berikan anotasi ```@Composable``` pada method yang di override).
+
+**CATATAN**: Library ini masih dalam tahap pengembangan dan belum stabil, sehingga fungsi yang ada pada library ini sangat besar kemungkinan berubah cara penggunaannya
+
 Berikut contoh implementasinya:
 
 ### Activity (Jetpack Compose)
