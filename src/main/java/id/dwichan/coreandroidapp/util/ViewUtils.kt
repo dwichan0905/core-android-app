@@ -2,6 +2,7 @@ package id.dwichan.coreandroidapp.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.view.*
 import android.widget.Toast
@@ -121,3 +122,9 @@ fun Window.addSystemUIVisibilityListener(visibilityListener: (Boolean) -> Unit) 
         }
     }
 }
+
+/**
+ * Get the screen landscape orientation status
+ */
+val Context.isOrientationLandscape: Boolean
+    get() = this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
