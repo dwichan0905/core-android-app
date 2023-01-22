@@ -1,13 +1,10 @@
 package id.dwichan.coreandroidapp.ui.config
 
-import android.content.Context
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import id.dwichan.coreandroidapp.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -22,20 +19,9 @@ class UiPreferences private constructor(private val dataStore: DataStore<Prefere
     }
     
     @Suppress("KotlinConstantConditions")
-    suspend fun setTheme(context: Context, theme: Int) {
-        val themeApplied = if (
-                theme != AppCompatDelegate.MODE_NIGHT_YES ||
-                theme != AppCompatDelegate.MODE_NIGHT_NO ||
-                theme != AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            ) {
-                Log.e("UiPreferences", context.getString(R.string.message_theme_not_found))
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            } else {
-                theme
-            }
-
+    suspend fun setTheme(@AppCompatDelegate.NightMode theme: Int) {
         dataStore.edit { preferences ->
-            preferences[themePreference] = themeApplied
+            preferences[themePreference] = theme
         }
     }
     

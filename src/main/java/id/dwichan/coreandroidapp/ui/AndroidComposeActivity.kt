@@ -22,6 +22,8 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = UiPreferences.PREFERENCE_NAME
 )
 
+private lateinit var uiViewModel: UiViewModel
+
 /**
  * Extends the class as Android Activity (Jetpack Compose). This will avoid the memory leak caused
  * by a binder class.
@@ -61,7 +63,7 @@ abstract class AndroidComposeActivity: ComponentActivity() {
         showBelowCutout()
 
         val pref = UiPreferences.getInstance(dataStore)
-        val uiViewModel = ViewModelProvider(this, UiViewModelFactory(pref))[
+        uiViewModel = ViewModelProvider(this, UiViewModelFactory(pref))[
                 UiViewModel::class.java
         ]
 
@@ -120,4 +122,22 @@ abstract class AndroidComposeActivity: ComponentActivity() {
      * called on [onDestroy] life cycle after nullifying a binder.
      */
     protected open fun onTearDown() {}
+
+    companion object {
+        /**
+         * Sets the Night Mode to the app. Please note that the [theme] value
+         * must be MODE_NIGHT_YES, MODE_NIGHT_NO, or MODE_NIGHT_FOLLOW_SYSTEM.
+         *
+         * Example usages:
+         * ```
+         * AndroidComposeActivity.setTheme(AppCompatDelegate.MODE_NIGHT_YES)
+         * ```
+         *
+         * @param theme Theme value from AppCompatDelegate
+         * @see AppCompatDelegate.NightMode
+         */
+        fun setTheme(@AppCompatDelegate.NightMode theme: Int) {
+            uiViewModel.setTheme(theme)
+        }
+    }
 }
