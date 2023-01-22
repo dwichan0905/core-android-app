@@ -51,7 +51,7 @@ private lateinit var uiViewModel: UiViewModel
  * }
  * ```
  *
- * Don't forget to add ```@Composable``` annotation on overriding ```OnSetContent()``` composable function!
+ * Don't forget to add `@Composable` annotation on overriding `OnSetContent()` composable function!
  *
  * @see ComponentActivity
  * @see Composable
@@ -106,6 +106,9 @@ abstract class AndroidComposeActivity: ComponentActivity() {
     /**
      * Will be invoked after event [onCreate] was invoked and view was inflated. Override this
      * function if you need to invoke syntax before setContent {}
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState. Note: Otherwise it is null
+     * @see ComponentActivity.onCreate
      */
     @Suppress("UNUSED_PARAMETER")
     protected open fun onSetup(savedInstanceState: Bundle?) {}
@@ -113,6 +116,12 @@ abstract class AndroidComposeActivity: ComponentActivity() {
     /**
      * Will be invoked after event [onCreate] was invoked and view was inflated. You don't need to
      * call setContent {} here because it's already called here.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState. Note: Otherwise it is null
+     * @param darkMode State of Dark Mode applied
+     *
+     * @see ComponentActivity.onCreate
+     * @see setContent
      */
     @Composable
     abstract fun OnSetContent(savedInstanceState: Bundle?, darkMode: Boolean)
@@ -120,6 +129,8 @@ abstract class AndroidComposeActivity: ComponentActivity() {
     /**
      * If you need to nullify variables/components (e.g. adapter), write to this function. This will
      * called on [onDestroy] life cycle after nullifying a binder.
+     *
+     * @see onDestroy
      */
     protected open fun onTearDown() {}
 
