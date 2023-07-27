@@ -1,5 +1,6 @@
 package id.dwichan.coreandroidapp.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -58,6 +59,7 @@ private lateinit var uiViewModel: UiViewModel
  */
 abstract class AndroidComposeActivity: ComponentActivity() {
 
+    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         showBelowCutout()
@@ -72,11 +74,6 @@ abstract class AndroidComposeActivity: ComponentActivity() {
 
         setContent {
             val uiMode = uiViewModel.getTheme().observeAsState()
-            val darkMode = when (uiMode.value) {
-                AppCompatDelegate.MODE_NIGHT_YES -> true
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> isSystemInDarkTheme()
-                else -> false
-            }
             val modeString = when (uiMode.value) {
                 AppCompatDelegate.MODE_NIGHT_YES -> {
                     "MODE_NIGHT_YES"
@@ -92,7 +89,7 @@ abstract class AndroidComposeActivity: ComponentActivity() {
                 }
             }
             Log.i("AndroidComposeActivity", "Theme successfully applied to $modeString")
-            OnSetContent(savedInstanceState, darkMode)
+            OnSetContent(savedInstanceState, uiMode.value ?: AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             Log.i("AndroidComposeActivity", "OnSetContent() successfully triggered.")
         }
     }
@@ -124,7 +121,10 @@ abstract class AndroidComposeActivity: ComponentActivity() {
      * @see setContent
      */
     @Composable
-    abstract fun OnSetContent(savedInstanceState: Bundle?, darkMode: Boolean)
+    abstract fun OnSetContent(
+        savedInstanceState: Bundle?,
+        @AppCompatDelegate.NightMode darkMode: Int
+    )
 
     /**
      * If you need to nullify variables/components (e.g. adapter), write to this function. This will
