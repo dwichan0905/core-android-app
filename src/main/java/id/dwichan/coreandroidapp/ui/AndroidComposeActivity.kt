@@ -13,6 +13,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import id.dwichan.coreandroidapp.ui.config.UiPreferences
 import id.dwichan.coreandroidapp.ui.config.UiViewModel
@@ -135,6 +136,19 @@ abstract class AndroidComposeActivity: ComponentActivity() {
     protected open fun onTearDown() {}
 
     companion object {
+        /**
+         * Get the Night Mode applied to config
+         *
+         * Example usages:
+         * ```
+         * AndroidComposeActivity.getTheme().observeAsState(initial = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM).value
+         * ```
+         *
+         * @return the [AppCompatDelegate.NightMode] values from config covered with [LiveData]
+         */
+        fun getTheme(): LiveData<Int> {
+            return uiViewModel.getTheme()
+        }
         /**
          * Sets the Night Mode to the app. Please note that the [theme] value
          * must be MODE_NIGHT_YES, MODE_NIGHT_NO, or MODE_NIGHT_FOLLOW_SYSTEM.
